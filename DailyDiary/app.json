@@ -7,12 +7,12 @@
 
     "icon": "./assets/images/icon.png",
 
-    "splash": {
-      "image": "./assets/images/splash.png",
+    ".splash-icon": {
+      "image": "./assets/images/.splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#660B05",
       "dark": {
-        "image": "./assets/images/splash.png",
+        "image": "./assets/images/.splash-icon.png",
         "resizeMode": "contain",
         "backgroundColor": "#3E0703"
       }
@@ -29,9 +29,9 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "expo-.splash-icon-screen",
         {
-          "image": "./assets/images/splash.png",
+          "image": "./assets/images/.splash-icon.png",
           "resizeMode": "contain",
           "backgroundColor": "#660B05",
           "dark": { "backgroundColor": "#3E0703" }
