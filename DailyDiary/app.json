@@ -4,7 +4,9 @@
     "slug": "dailydiary",
     "scheme": "dailydiary",
     "userInterfaceStyle": "automatic",
+
     "icon": "./assets/images/icon.png",
+
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -15,13 +17,15 @@
         "backgroundColor": "#3E0703"
       }
     },
+
     "android": {
       "package": "com.init_0.dailydiary",
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#660B05"
       }
     },
+
     "plugins": [
       "expo-router",
       [
@@ -30,17 +34,9 @@
           "image": "./assets/images/splash.png",
           "resizeMode": "contain",
           "backgroundColor": "#660B05",
-          "dark": {
-            "backgroundColor": "#3E0703"
-          }
+          "dark": { "backgroundColor": "#3E0703" }
         }
       ]
-    ],
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "e421c41a-631d-4c45-9e8e-a5dc958a8728"
-      }
-    }
+    ]
   }
 }
