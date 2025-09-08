@@ -1,29 +1,37 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import { storage } from "../database/storage";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const [ready, setReady] = useState(false);
+    const [needsOnboarding, setNeedsOnboarding] = useState<boolean | null>(null);
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+    useEffect(() => {
+        (async () => {
+            const done = await storage.getDone();
+            console.log("onboarding done?", done);
+            setNeedsOnboarding(!done);
+            setReady(true);
+            await SplashScreen.hideAsync();
+        })();
+    }, []);
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    if (!ready || needsOnboarding === null) return null;
+
+    return (
+        <View style={{ flex: 1, backgroundColor: "#660B05" }}>
+            <Stack screenOptions={{ headerShown: false }}>
+                {needsOnboarding ? (
+                    <Stack.Screen name="onboarding" />
+                    ) : (
+                    <Stack.Screen name="(tabs)" />
+                    )}
+                <Stack.Screen name="+not-found" />
+            </Stack>
+        </View>
+    );
 }
