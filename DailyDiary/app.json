@@ -4,20 +4,17 @@
     "slug": "dailydiary",
     "scheme": "dailydiary",
     "userInterfaceStyle": "automatic",
-
     "icon": "./assets/images/icon.png",
-
-    ".splash-icon": {
-      "image": "./assets/images/.splash-icon.png",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#660B05",
       "dark": {
-        "image": "./assets/images/.splash-icon.png",
+        "image": "./assets/images/splash-icon.png",
         "resizeMode": "contain",
         "backgroundColor": "#3E0703"
       }
     },
-
     "android": {
       "package": "com.init_0.dailydiary",
       "edgeToEdgeEnabled": true,
@@ -25,18 +22,20 @@
         "backgroundColor": "#660B05"
       }
     },
-
     "plugins": [
       "expo-router",
       [
         "expo-.splash-icon-screen",
         {
-          "image": "./assets/images/.splash-icon.png",
+          "image": "./assets/images/splash-icon.png",
           "resizeMode": "contain",
           "backgroundColor": "#660B05",
-          "dark": { "backgroundColor": "#3E0703" }
+          "dark": {
+            "backgroundColor": "#3E0703"
+          }
         }
-      ]
+      ],
+      "expo-secure-store"
     ]
   }
 }
