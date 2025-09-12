@@ -1,92 +1,76 @@
-import { useEffect, useState } from 'react';
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-import { storage } from '../../database/storage'; // 👈 Username-Storage
+import { useState, useCallback } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import { storage } from '../../database/storage'
+import DiaryEntry from '../../models/diary'
+import EntryListComponent from '@/components/EntryListComponent'
 
 export default function HomeScreen() {
-    const [username, setUsername] = useState<string | null>(null);
+    const [entries, setEntries] = useState<DiaryEntry[]>([])
 
-    useEffect(() => {
-        (async () => {
-            const n = await storage.getName();
-            setUsername(n);
-        })();
-    }, []);
+    const loadEntries = async () => {
+        const allEntries = (await storage.getAllEntries()) as unknown as DiaryEntry[]
+        if (allEntries?.length > 0) {
+            const sorted = allEntries
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .slice(0, 7)
+            setEntries(sorted)
+        } else {
+            setEntries([])
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            loadEntries()
+        }, [])
+    )
 
     return (
-        <ParallaxScrollView
-            headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-            headerImage={
-                <Image
-                    source={require('@/assets/images/partial-react-logo.png')}
-                    style={styles.reactLogo}
-                />
-            }>
-            <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">
-                    {username ? `Welcome, ${username}!` : 'Welcome!'}
-                </ThemedText>
-                <HelloWave />
-            </ThemedView>
+        <View style={styles.container}>
+            <Text style={styles.title}>Your Entries</Text>
 
-            <ThemedView style={styles.stepContainer}>
-                <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-                <ThemedText>
-                    Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-                    Press{' '}
-                    <ThemedText type="defaultSemiBold">
-                        {Platform.select({
-                            ios: 'cmd + d',
-                            android: 'cmd + m',
-                            web: 'F12',
-                        })}
-                    </ThemedText>{' '}
-                    to open developer tools.
-                </ThemedText>
-            </ThemedView>
-
-            <ThemedView style={styles.stepContainer}>
-                <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-                <ThemedText>
-                    {`Tap the Explore tab to learn more about what's included in this starter app.`}
-                </ThemedText>
-            </ThemedView>
-
-            <ThemedView style={styles.stepContainer}>
-                <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-                <ThemedText>
-                    {`When you're ready, run `}
-                    <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-                    <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-                    <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-                    <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-                </ThemedText>
-            </ThemedView>
-        </ParallaxScrollView>
-    );
+            {entries.length === 0 ? (
+                <View style={styles.emptyBox}>
+                    <Text style={styles.emptyText}>You have no Entries yet</Text>
+                </View>
+            ) : (
+                <>
+                    <Text style={styles.subLabel}>&lt; Last 7 entries &gt;</Text>
+                    <EntryListComponent entries={entries} />
+                </>
+            )}
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        flexDirection: 'row',
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: 16,
+        paddingTop: 32,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#7f1d1d',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    emptyBox: {
+        marginTop: 32,
         alignItems: 'center',
-        gap: 8,
+        justifyContent: 'center',
     },
-    stepContainer: {
-        gap: 8,
+    emptyText: {
+        color: '#9ca3af',
+        fontSize: 16,
+    },
+    subLabel: {
+        color: '#7f1d1d',
+        fontSize: 12,
         marginBottom: 8,
+        marginLeft: 4,
     },
-    reactLogo: {
-        height: 178,
-        width: 290,
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-    },
-});
+})
