@@ -13,8 +13,10 @@ export default function NameScreen() {
     const next = async () => {
         if (!name.trim()) return;
         await storage.setName(name.trim());
-        router.push('/onboarding/name');
+        // NICHT gleich done setzen – erst im password step
+        router.push('/onboarding/password');
     };
+
 
     return (
         <View style={{ flex: 1, backgroundColor: BG, padding: 24, justifyContent: 'center' }}>
