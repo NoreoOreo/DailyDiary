@@ -19,21 +19,21 @@ export default function TabLayout() {
             }}
         >
             <Tabs.Screen
-                name="calendar"
+                name="index" // Start-Tab
                 options={{
-                    title: 'Calendar Overview',
-                    tabBarIcon: ({color, size}) => (
-                        <Ionicons name="calendar-outline" size={size} color={color}/>
+                    title: 'My Entries',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="list-outline" size={size} color={color} />
                     ),
                 }}
             />
 
             <Tabs.Screen
-                name="diaryTestScreen"
+                name="calendar"
                 options={{
-                    title: 'Diary',
+                    title: 'Calendar Overview',
                     tabBarIcon: ({color, size}) => (
-                        <Ionicons name="book-outline" size={size} color={color}/>
+                        <Ionicons name="calendar-outline" size={size} color={color}/>
                     ),
                 }}
             />
@@ -49,16 +49,16 @@ export default function TabLayout() {
                 }}
             />
 
-
             <Tabs.Screen
-                name="index"
+                name="diaryTestScreen"
                 options={{
-                    title: 'My Entries',
+                    title: 'Diary',
                     tabBarIcon: ({color, size}) => (
-                        <Ionicons name="list-outline" size={size} color={color}/>
+                        <Ionicons name="book-outline" size={size} color={color}/>
                     ),
                 }}
             />
+
         </Tabs>
     )
 }
