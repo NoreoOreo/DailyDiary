@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { storage } from '../../database/storage'
+import { storage } from '@/database/storage'
 import DiaryEntry from '../../models/diary'
 import EntryListComponent from '@/components/EntryListComponent'
 
@@ -11,17 +11,15 @@ const PAGE_SIZE = 7
 
 export default function HomeScreen() {
     const [allEntries, setAllEntries] = useState<DiaryEntry[]>([])
-    const [page, setPage] = useState(0) // wird nach Load auf "letzte Seite" gesetzt
+    const [page, setPage] = useState(0)
 
     const loadEntries = async () => {
         const data = (await storage.getAllEntries()) as unknown as DiaryEntry[]
-        // ⬇️ global aufsteigend (älteste → neueste)
         const sorted = (data ?? []).sort(
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         )
         setAllEntries(sorted)
 
-        // ⬇️ immer auf die rechte (neueste) Seite springen
         const lastPage = Math.max(0, Math.ceil(sorted.length / PAGE_SIZE) - 1)
         setPage(lastPage)
     }
@@ -37,7 +35,6 @@ export default function HomeScreen() {
     const hasPrev = page > 0                 // linke Seite (älter)
     const hasNext = page < totalPages - 1    // rechte Seite (neuer)
 
-    // ⬇️ Slicing je Seite – Reihenfolge innerhalb der Seite bleibt aufsteigend
     const pageItems = useMemo(() => {
         const start = page * PAGE_SIZE
         return allEntries.slice(start, start + PAGE_SIZE)
@@ -71,14 +68,12 @@ export default function HomeScreen() {
             ) : (
                 <>
                     <View style={styles.navRow}>
-                        {/* ← ältere Seite (links) */}
                         <IconButtonOrSpacer
                             show={hasPrev}
                             onPress={() => setPage(p => Math.max(0, p - 1))}
                             name="chevron-back"
                         />
                         <Text style={styles.subLabel}>Last 7 entries</Text>
-                        {/* → neuere Seite (rechts) */}
                         <IconButtonOrSpacer
                             show={hasNext}
                             onPress={() => setPage(p => Math.min(totalPages - 1, p + 1))}
