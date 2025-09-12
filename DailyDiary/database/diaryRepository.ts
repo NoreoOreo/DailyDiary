@@ -74,8 +74,7 @@ export async function addDiaryEntry(entry: Omit<DiaryTable, 'id'>): Promise<void
 }
 
 export async function getAllDiaryEntries(): Promise<DiaryTable[]> {
-    return await db.getAllAsync<DiaryTable>(`SELECT *
-                                             FROM diary;`)
+    return await db.getAllAsync<DiaryTable>(`SELECT * FROM diary;`)
 }
 
 export async function getDiaryEntryById(id: number): Promise<DiaryTable | undefined> {
@@ -101,6 +100,8 @@ export async function updateDiaryEntry(id: number, entry: Partial<Omit<DiaryTabl
 }
 
 export async function deleteDiaryEntry(id: number): Promise<void> {
-    await db.runAsync(`DELETE FROM diary WHERE id = ?;`, [id]);
+    await db.runAsync(`DELETE
+                       FROM diary
+                       WHERE id = ?;`, [id]);
 }
 
