@@ -25,7 +25,7 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "expo-.splash-icon-screen",
         {
           "image": "./assets/images/splash-icon.png",
           "resizeMode": "contain",
