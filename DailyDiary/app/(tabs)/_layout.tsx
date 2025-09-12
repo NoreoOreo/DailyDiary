@@ -31,7 +31,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-<<<<<<< HEAD
         name="diaryTestScreen"
         options={{
           title: 'Diary',
@@ -40,9 +39,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="explore"
-=======
         name="add"
->>>>>>> 12a9e4dcb678a61358cdce1749efb2a173e76101
         options={{
           title: 'Add',
           tabBarIcon: ({ color, size }) => (
