@@ -5,6 +5,7 @@
     "scheme": "dailydiary",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
+
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -22,6 +23,12 @@
         "backgroundColor": "#660B05"
       }
     },
+    "ios": {
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We use your photo library to attach pictures to your diary entries.",
+        "NSCameraUsageDescription": "We use your camera to take photos for your diary entries."
+      }
+    },
     "plugins": [
       "expo-router",
       [
@@ -35,7 +42,8 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-image-picker"
     ]
   }
 }

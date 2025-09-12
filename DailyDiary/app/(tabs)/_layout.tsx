@@ -1,8 +1,8 @@
-import { Tabs } from 'expo-router'
-import { Ionicons } from '@expo/vector-icons'
+import {Tabs} from 'expo-router'
+import {Ionicons} from '@expo/vector-icons'
 import React from 'react'
-import { Colors } from '@/constants/Colors'
-import { useColorScheme } from '@/hooks/useColorScheme'
+import {Colors} from '@/constants/Colors'
+import {useColorScheme} from '@/hooks/useColorScheme'
 
 export default function TabLayout() {
     const colorScheme = useColorScheme()
@@ -22,8 +22,8 @@ export default function TabLayout() {
                 name="calendar"
                 options={{
                     title: 'Calendar Overview',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="calendar-outline" size={size} color={color} />
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="calendar-outline" size={size} color={color}/>
                     ),
                 }}
             />
@@ -32,8 +32,8 @@ export default function TabLayout() {
                 name="diaryTestScreen"
                 options={{
                     title: 'Diary',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="book-outline" size={size} color={color} />
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="book-outline" size={size} color={color}/>
                     ),
                 }}
             />
@@ -42,18 +42,20 @@ export default function TabLayout() {
                 name="add"
                 options={{
                     title: 'Add',
+                    href: '/add', // zeigt auf add/index.tsx
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="add-circle-outline" size={size} color={color} />
                     ),
                 }}
             />
 
+
             <Tabs.Screen
                 name="index"
                 options={{
                     title: 'My Entries',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="list-outline" size={size} color={color} />
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="list-outline" size={size} color={color}/>
                     ),
                 }}
             />
