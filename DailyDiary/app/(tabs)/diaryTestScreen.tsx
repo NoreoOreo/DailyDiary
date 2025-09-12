@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Button, Text, FlatList, TextInput, StyleSheet } from 'react-native';
 import { createTables, addDiaryEntry, getAllDiaryEntries, deleteDiaryEntry, updateDiaryEntry } from '../../database/diaryRepository';
 
+
+/*
+The DiaryTable type definition should match the structure defined in diaryRepository.ts.
+ */
 type DiaryTable = {
   id: number;
   title: string;
@@ -14,6 +18,9 @@ type DiaryTable = {
   caption?: string;
 };
 
+/*
+ * Styles for the DiaryTestScreen component.
+ */
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   header: { fontSize: 20, fontWeight: 'bold', marginBottom: 12 },
@@ -24,6 +31,10 @@ const styles = StyleSheet.create({
   editBox: { marginTop: 8 },
 });
 
+/*
+ * This is a mock diary entry for testing purposes.
+ * It allows adding, editing, and deleting mock entries in the database.
+ */
 export default function DiaryTestScreen() {
   const [entries, setEntries] = useState<DiaryTable[]>([]);
   const [newTitle, setNewTitle] = useState('');

@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { storage } from '../../database/storage'
 import DiaryEntry from '../../models/diary'
 import EntryListComponent from '@/components/EntryListComponent'
+import { useRouter } from 'expo-router'
 
 export default function HomeScreen() {
     const [entries, setEntries] = useState<DiaryEntry[]>([])
+    const router = useRouter();
 
     const loadEntries = async () => {
         const allEntries = (await storage.getAllEntries()) as unknown as DiaryEntry[]
@@ -29,7 +31,7 @@ export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Your Entries</Text>
-
+            <Button title="Go Test" onPress={() => router.push("/1")} />
             {entries.length === 0 ? (
                 <View style={styles.emptyBox}>
                     <Text style={styles.emptyText}>You have no Entries yet</Text>
@@ -37,7 +39,12 @@ export default function HomeScreen() {
             ) : (
                 <>
                     <Text style={styles.subLabel}>&lt; Last 7 entries &gt;</Text>
-                    <EntryListComponent entries={entries} />
+                        <EntryListComponent
+                            entries={entries}
+                            onPressEntry={(entry) => {
+                               router.push(`/${entry.id}`);
+                            }}
+                        />
                 </>
             )}
         </View>
