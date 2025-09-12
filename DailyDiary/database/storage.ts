@@ -13,6 +13,7 @@ import {
 const K_DONE = 'onboarding.done'
 const K_NAME = 'user.name'
 const K_PIN = 'user.pinEnabled'
+const K_PIN_VALUE = 'user.pin' // <-- Add this line
 
 export const storage = {
     /* ---------- USER ---------- */
@@ -27,6 +28,9 @@ export const storage = {
 
     setSecret: (v: string) => SecureStore.setItemAsync('user.secret', v),
     getSecret: () => SecureStore.getItemAsync('user.secret'),
+
+    setPin: (pin: string) => SecureStore.setItemAsync(K_PIN_VALUE, pin), // <-- Add this line
+    getPin: () => SecureStore.getItemAsync(K_PIN_VALUE),                 // <-- Add this line
 
     /* ---------- DIARY ---------- */
     init: async () => {
