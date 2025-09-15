@@ -49,16 +49,6 @@ export default function TabLayout() {
                 }}
             />
 
-            <Tabs.Screen
-                name="diaryTestScreen"
-                options={{
-                    title: 'Diary',
-                    tabBarIcon: ({color, size}) => (
-                        <Ionicons name="book-outline" size={size} color={color}/>
-                    ),
-                }}
-            />
-
         </Tabs>
     )
 }
