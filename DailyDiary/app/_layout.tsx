@@ -12,11 +12,19 @@ export default function RootLayout() {
 
     useEffect(() => {
         (async () => {
-            const done = await storage.getDone();
-            console.log("onboarding done?", done);
-            setNeedsOnboarding(!done);
-            setReady(true);
-            await SplashScreen.hideAsync();
+            try {
+                // 👇 DB-Tabelle erstellen, wenn sie nicht existiert
+                await storage.init();
+
+                const done = await storage.getDone();
+                console.log("onboarding done?", done);
+                setNeedsOnboarding(!done);
+            } catch (e) {
+                console.error("App init error", e);
+            } finally {
+                setReady(true);
+                await SplashScreen.hideAsync();
+            }
         })();
     }, []);
 
@@ -27,9 +35,9 @@ export default function RootLayout() {
             <Stack screenOptions={{ headerShown: false }}>
                 {needsOnboarding ? (
                     <Stack.Screen name="onboarding" />
-                    ) : (
+                ) : (
                     <Stack.Screen name="(tabs)" />
-                    )}
+                )}
                 <Stack.Screen name="+not-found" />
             </Stack>
         </View>
