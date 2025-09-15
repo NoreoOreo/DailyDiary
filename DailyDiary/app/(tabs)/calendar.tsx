@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors'
 import { storage } from '@/database/storage'
 import DiaryEntry from '@/models/diary'
 import EntryListComponent from '@/components/EntryListComponent'
+import {router} from "expo-router";
 
 /** Calendar liefert day.dateString als YYYY-MM-DD.
  * Wir normalisieren jede Entry-Date dazu, damit der Vergleich exakt ist. */
@@ -113,7 +114,12 @@ export default function CalendarScreen() {
                         // ggf. sortieren wie bei dir üblich (hier aufsteigend innerhalb des Tages)
                         entries={[...entriesForSelected].sort(
                             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+
                         )}
+                        onPressEntry={(entry) => {
+                            router.push(`entry/${entry.id}`
+                            )}
+                        }
                     />
                 )}
             </View>
