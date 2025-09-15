@@ -76,7 +76,7 @@ export default function Step5() {
             const asset = result.assets?.[0]
             if (!asset?.uri) return
 
-            // 👇 ebenfalls persistieren
+
             const persistedUri = await saveAssetToAppStorage(asset.uri)
             setField('picture', persistedUri)
         } catch (e: any) {

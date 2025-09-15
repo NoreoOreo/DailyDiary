@@ -50,8 +50,7 @@ export default function AddLayout() {
                     caption: data.caption ?? undefined,
                 })
                 // zurück auf My Entries (index lädt via useFocusEffect neu)
-                router.replace('/(tabs)/index')
-            },
+                router.replace('/(tabs)')            },
         }),
         [data, router]
     )

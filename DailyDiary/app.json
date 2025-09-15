@@ -5,7 +5,6 @@
     "scheme": "dailydiary",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
-
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -21,7 +20,10 @@
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "backgroundColor": "#660B05"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "ios": {
       "infoPlist": {
@@ -44,6 +46,12 @@
       ],
       "expo-secure-store",
       "expo-image-picker"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e421c41a-631d-4c45-9e8e-a5dc958a8728"
+      }
+    }
   }
 }
