@@ -44,7 +44,8 @@
     "react-native-web": "^0.21.1",
     "react-native-webview": "^13.15.0",
     "expo-image-picker": "~17.0.8",
-    "expo-file-system": "~19.0.12"
+    "expo-file-system": "~19.0.12",
+    "expo-crypto": "~15.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

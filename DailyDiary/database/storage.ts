@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
+import * as Crypto from 'expo-crypto'
 import {
     addDiaryEntry,
     deleteDiaryEntry,
@@ -12,7 +13,7 @@ import {
 const K_DONE = 'onboarding.done'
 const K_NAME = 'user.name'
 const K_PIN = 'user.pinEnabled'
-const K_PIN_VALUE = 'user.pin' // <-- Add this line
+const K_PIN_VALUE = 'user.pinHash' // wir speichern jetzt den Hash
 
 export const storage = {
     /* ---------- USER ---------- */
@@ -28,8 +29,27 @@ export const storage = {
     setSecret: (v: string) => SecureStore.setItemAsync('user.secret', v),
     getSecret: () => SecureStore.getItemAsync('user.secret'),
 
-    setPin: (pin: string) => SecureStore.setItemAsync(K_PIN_VALUE, pin), // <-- Add this line
-    getPin: () => SecureStore.getItemAsync(K_PIN_VALUE),                 // <-- Add this line
+    setPin: async (pin: string) => {
+        const hash = await Crypto.digestStringAsync(
+            Crypto.CryptoDigestAlgorithm.SHA256,
+            pin
+        )
+        await SecureStore.setItemAsync(K_PIN_VALUE, hash)
+        await AsyncStorage.setItem(K_PIN, 'true')
+    },
+
+    // PIN-Hash holen
+    getPinHash: () => SecureStore.getItemAsync(K_PIN_VALUE),
+
+    // PIN checken
+    checkPin: async (pin: string) => {
+        const hash = await Crypto.digestStringAsync(
+            Crypto.CryptoDigestAlgorithm.SHA256,
+            pin
+        )
+        const stored = await SecureStore.getItemAsync(K_PIN_VALUE)
+        return stored === hash
+    },
 
     /* ---------- DIARY ---------- */
     init: async () => {

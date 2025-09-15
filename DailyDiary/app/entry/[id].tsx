@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+ import { useLocalSearchParams } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
 import { DiaryEntryView } from '../../components/DiaryEntryView';
 import { storage } from '../../database/storage';

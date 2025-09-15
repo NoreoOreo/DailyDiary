@@ -9,16 +9,18 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 export default function RootLayout() {
     const [ready, setReady] = useState(false);
     const [needsOnboarding, setNeedsOnboarding] = useState<boolean | null>(null);
+    const [needsPin, setNeedsPin] = useState<boolean | null>(null);
 
     useEffect(() => {
         (async () => {
             try {
-                // 👇 DB-Tabelle erstellen, wenn sie nicht existiert
                 await storage.init();
 
                 const done = await storage.getDone();
-                console.log("onboarding done?", done);
+                const pinEnabled = await storage.getPinEnabled();
+
                 setNeedsOnboarding(!done);
+                setNeedsPin(done && pinEnabled); // nur wenn Onboarding fertig + PIN aktiv
             } catch (e) {
                 console.error("App init error", e);
             } finally {
@@ -28,16 +30,18 @@ export default function RootLayout() {
         })();
     }, []);
 
-    if (!ready || needsOnboarding === null) return null;
+    if (!ready || needsOnboarding === null || needsPin === null) return null;
 
     return (
         <View style={{ flex: 1, backgroundColor: "#660B05" }}>
             <Stack screenOptions={{ headerShown: false }}>
                 {needsOnboarding ? (
                     <Stack.Screen name="onboarding" />
-                ) : (
+                ) : needsPin ? (
+                    <Stack.Screen name="auth/pin" />
+                    ) : (
                     <Stack.Screen name="(tabs)" />
-                )}
+                    )}
                 <Stack.Screen name="+not-found" />
             </Stack>
         </View>
