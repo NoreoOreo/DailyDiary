@@ -85,7 +85,7 @@ export default function HomeScreen() {
           <EntryListComponent
             entries={pageItems}
             onPressEntry={(entry) => {
-              router.push(`/${entry.id}`)
+              router.push(`entry/${entry.id}`)
             }}
           />
         </>
