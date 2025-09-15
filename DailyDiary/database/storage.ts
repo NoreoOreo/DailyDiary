@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import {
     addDiaryEntry,
-    updateDiaryEntry,
     deleteDiaryEntry,
     getAllDiaryEntries,
     getDiaryEntryById,
@@ -47,10 +46,6 @@ export const storage = {
 
     addEntry: async (entry: Omit<DiaryTable, 'id'>): Promise<void> => {
         return await addDiaryEntry(entry)
-    },
-
-    updateEntry: async (id: number, entry: Partial<Omit<DiaryTable, 'id'>>): Promise<void> => {
-        return await updateDiaryEntry(id, entry)
     },
 
     deleteEntry: async (id: number): Promise<void> => {

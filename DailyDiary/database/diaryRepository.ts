@@ -84,21 +84,6 @@ export async function getDiaryEntryById(id: number): Promise<DiaryTable | undefi
     return result === null ? undefined : result
 }
 
-export async function updateDiaryEntry(id: number, entry: Partial<Omit<DiaryTable, 'id'>>): Promise<void> {
-    await db.execAsync(
-        `UPDATE diary
-         SET title               = ${escape(entry.title)},
-             event               = ${escape(entry.event)},
-             positiveReflections = ${escape(entry.positiveReflections)},
-             negativeReflections = ${escape(entry.negativeReflections)},
-             lessonsLearned      = ${escape(entry.lessonsLearned)},
-             date                = ${escape(entry.date)},
-             picture             = ${escape(entry.picture)},
-             caption             = ${escape(entry.caption)}
-         WHERE id = ${id};`
-    )
-}
-
 export async function deleteDiaryEntry(id: number): Promise<void> {
     await db.runAsync(`DELETE
                        FROM diary
