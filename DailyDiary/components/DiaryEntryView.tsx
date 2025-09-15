@@ -1,15 +1,26 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Button } from 'react-native';
 import { DiaryTable } from '../database/diaryRepository';
+import { useRouter } from 'expo-router'; // <-- Import router
 
 interface DiaryEntryViewProps {
   entry: DiaryTable;
 }
 
 export const DiaryEntryView: React.FC<DiaryEntryViewProps> = ({ entry }) => {
+  const router = useRouter(); // <-- Initialize router
+
+  const goToStartTab = () => {
+    router.push('/'); // <-- Navigate to start tab (index)
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.diaryContent}>
+        {/* Button to go back to start tab */}
+        <View style={{ marginTop: 20 }}>
+          <Button title="Back to My Entries" onPress={goToStartTab} color="#B71C1C" />
+        </View>
         <Text style={styles.title}>{entry.title}</Text>
         <Section label="What did you do today?" content={entry.event} />
         <Section label="What went well today?" content={entry.positiveReflections} />
@@ -32,6 +43,7 @@ const Section: React.FC<{ label: string; content: string }> = ({ label, content 
     <Text style={styles.sectionContent}>{content}</Text>
   </View>
 );
+
 
 const styles = StyleSheet.create({
   container: {
