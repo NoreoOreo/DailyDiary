@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiaryRepository snapshot test should match the snapshot of a diary entry 1`] = `
+{
+  "caption": "Snapshot Caption",
+  "date": "2024-06-01",
+  "event": "Snapshot Event",
+  "id": 1,
+  "lessonsLearned": "Snapshot Lesson",
+  "negativeReflections": "Snapshot Negative",
+  "picture": "snapshot.jpg",
+  "positiveReflections": "Snapshot Positive",
+  "title": "Snapshot Title",
+}
+`;
