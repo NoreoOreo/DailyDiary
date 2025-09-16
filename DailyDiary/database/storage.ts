@@ -17,13 +17,20 @@ const K_PIN_VALUE = 'user.pinHash' // wir speichern jetzt den Hash
 
 export const storage = {
     /* ---------- USER ---------- */
-    getDone: async () => (await AsyncStorage.getItem(K_DONE)) === 'true',
+    getDone: async (): Promise<boolean> => {
+        const val = await AsyncStorage.getItem(K_DONE)
+        return val === 'true'
+    },
+
     setDone: () => AsyncStorage.setItem(K_DONE, 'true'),
 
     getName: () => AsyncStorage.getItem(K_NAME),
     setName: (v: string) => AsyncStorage.setItem(K_NAME, v),
 
-    getPinEnabled: async () => (await AsyncStorage.getItem(K_PIN)) === 'true',
+    getPinEnabled: async (): Promise<boolean> => {
+        const val = await AsyncStorage.getItem(K_PIN)
+        return val === 'true'
+    },
     setPinEnabled: (v: boolean) => AsyncStorage.setItem(K_PIN, String(v)),
 
     setSecret: (v: string) => SecureStore.setItemAsync('user.secret', v),
@@ -38,10 +45,8 @@ export const storage = {
         await AsyncStorage.setItem(K_PIN, 'true')
     },
 
-    // PIN-Hash holen
     getPinHash: () => SecureStore.getItemAsync(K_PIN_VALUE),
 
-    // PIN checken
     checkPin: async (pin: string) => {
         const hash = await Crypto.digestStringAsync(
             Crypto.CryptoDigestAlgorithm.SHA256,
