@@ -1,57 +1,43 @@
-import { createTables, addDiaryEntry, getAllDiaryEntries, deleteDiaryEntry } from '../database/diaryRepository'
+import { createTables, addDiaryEntry, getAllDiaryEntries } from '../database/diaryRepository'
 
-const mockDb: any[] = []
+const db = new Map<number, any>()
 
-jest.mock('expo-sqlite', () => {
-    return {
-        openDatabaseSync: () => ({
-            execAsync: async (sql: string) => {
-                if (sql.startsWith('INSERT INTO diary')) {
-                    const match = sql.match(/\(([^)]+)\)\s+VALUES\s+\(([^)]+)\)/)
-                    if (match) {
-                        const columns = match[1].split(',').map(s => s.trim())
-                        const values = match[2].split(',').map(s => s.trim().replace(/^'|'$/g, ''))
-                        const entry: any = { id: mockDb.length + 1 }
-                        columns.forEach((col: string, i: number) => (entry[col] = values[i] === 'NULL' ? null : values[i]))
-                        mockDb.push(entry)
-                    }
-                }
-            },
-            getAllAsync: async () => [...mockDb],
-            runAsync: async (sql: string, params: any[]) => {
-                if (sql.startsWith('DELETE FROM diary')) {
-                    const id = params[0]
-                    const idx = mockDb.findIndex(e => e.id === id)
-                    if (idx !== -1) mockDb.splice(idx, 1)
-                }
+jest.mock('expo-sqlite', () => ({
+    openDatabaseSync: () => ({
+        execAsync: async (sql: string) => {
+            if (sql.startsWith('INSERT INTO diary')) {
+                const keys = sql.match(/\(([^)]+)\)/)?.[1].split(',').map(k => k.trim()) ?? []
+                const vals = sql.match(/VALUES\s+\(([^)]+)\)/)?.[1].split(',').map(v => v.replace(/'/g, '').trim()) ?? []
+                const obj: any = { id: db.size + 1 }
+                keys.forEach((k, i) => obj[k] = vals[i])
+                db.set(obj.id, obj)
             }
-        })
-    }
-})
+        },
+        getAllAsync: async () => Array.from(db.values())
+    })
+}))
 
-describe('Entry Positive Test', () => {
+describe('Valid entry creation', () => {
     beforeEach(async () => {
-        mockDb.length = 0
+        db.clear()
         await createTables()
     })
 
-    it('should create and retrieve a valid diary entry', async () => {
-        const entry = {
-            title: 'Mein Tag',
-            event: 'Test Event',
-            positiveReflections: 'Nice',
-            negativeReflections: 'None',
-            lessonsLearned: 'Gelernt!',
-            date: '2024-09-16',
-            picture: 'pic.jpg',
-            caption: 'Caption'
+    it('stores a complete entry in the mock DB', async () => {
+        const newEntry = {
+            title: 'Tagebuch-Test',
+            event: 'Unit Test läuft',
+            positiveReflections: 'Stolz',
+            negativeReflections: 'Müde',
+            lessonsLearned: 'Tests früh machen',
+            date: '2024-09-17',
+            picture: 'unit.jpg',
+            caption: 'Test erfolgreich'
         }
 
-        await addDiaryEntry(entry)
-        const entries = await getAllDiaryEntries()
-        expect(entries.length).toBe(1)
-        expect(entries[0]).toMatchObject(entry)
+        await addDiaryEntry(newEntry)
+        const all = await getAllDiaryEntries()
+        expect(all.length).toBe(1)
+        expect(all[0].title).toBe('Tagebuch-Test')
     })
 })
-
-

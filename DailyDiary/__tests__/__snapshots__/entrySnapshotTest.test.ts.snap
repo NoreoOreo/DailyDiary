@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Entry Snapshot Test should match the snapshot of a diary entry 1`] = `
+exports[`Entry structure snapshot keeps the data structure consistent 1`] = `
 {
-  "caption": "Caption",
-  "date": "2024-09-16",
-  "event": "Snapshot Event",
+  "caption": "Drei Tage durchgecodet",
+  "date": "2024-09-17",
+  "event": "Coding Marathon",
   "id": 1,
-  "lessonsLearned": "Snapshot Lesson",
-  "negativeReflections": "Nay",
-  "picture": "snap.jpg",
-  "positiveReflections": "Yay",
-  "title": "Snapshot Titel",
+  "lessonsLearned": "Mehr Pausen machen",
+  "negativeReflections": "Kaum geschlafen",
+  "picture": "snapshot.png",
+  "positiveReflections": "Viel geschafft",
+  "title": "Snapshot 👀",
 }
 `;
