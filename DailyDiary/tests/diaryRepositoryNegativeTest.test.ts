@@ -42,7 +42,7 @@ jest.mock('expo-sqlite', () => {
 })
 
 // Negative Test
-// Tests for error scenarios like missing required fields
+// Tests for error scenarios missing required fields
 describe('DiaryRepository negative test', () => {
     beforeEach(async () => {
         mockDb.length = 0

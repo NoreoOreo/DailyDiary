@@ -48,7 +48,7 @@ async function clearDiaryTable() {
 }
 
 // Positive Test
-// Tests for successful operations like adding and retrieving entries
+// Tests for successful adding and retrieving of an entry
 describe('DiaryRepository positive test', () => {
     beforeEach(async () => {
         mockDb.length = 0
