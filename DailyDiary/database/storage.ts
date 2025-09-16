@@ -56,6 +56,19 @@ export const storage = {
         return stored === hash
     },
 
+    /* ---------- VALIDATION ---------- */
+    validateOnboarding: async () => {
+        const name = await AsyncStorage.getItem(K_NAME)
+        const pinEnabled = await AsyncStorage.getItem(K_PIN)
+        if (name && pinEnabled !== null) {
+            await AsyncStorage.setItem(K_DONE, 'true')
+            return true
+        } else {
+            await AsyncStorage.setItem(K_DONE, 'false')
+            return false
+        }
+    },
+
     /* ---------- DIARY ---------- */
     init: async () => {
         await createTables()
